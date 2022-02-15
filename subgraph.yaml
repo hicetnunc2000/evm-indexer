@@ -1,0 +1,23 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: erc1155
+    network: matic
+    source:
+      address: "0x2f371e80bffc7e7011729bc8ae15723996aaf586"
+      abi: erc1155
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.2
+      language: wasm/assemblyscript
+      entities:
+        - TransferSingle
+      abis:
+        - name: erc1155
+          file: ./abis/erc1155.json
+      eventHandlers:
+        - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+          handler: handleTransferSingle
+      file: ./src/mapping.ts
