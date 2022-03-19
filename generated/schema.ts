@@ -60,6 +60,69 @@ export class Asset extends Entity {
     this.set("metadata", Value.fromString(value));
   }
 
+  get hash(): Bytes {
+    let value = this.get("hash");
+    return value.toBytes();
+  }
+
+  set hash(value: Bytes) {
+    this.set("hash", Value.fromBytes(value));
+  }
+
+  get animation(): String {
+    let value = this.get("animation");
+    return value.toString();
+  }
+
+  set animation(value: String) {
+    this.set("animation", Value.fromString(value));
+  }
+
+  get title(): String {
+    let value = this.get("title");
+    return value.toString();
+  }
+
+  set title(value: String) {
+    this.set("title", Value.fromString(value));
+  }
+
+  get description(): String {
+    let value = this.get("description");
+    return value.toString();
+  }
+
+  set description(value: String) {
+    this.set("description", Value.fromString(value));
+  }
+
+  get mimeType(): String {
+    let value = this.get("mimeType");
+    return value.toString();
+  }
+
+  set mimeType(value: String) {
+    this.set("mimeType", Value.fromString(value));
+  }
+
+  get image(): String {
+    let value = this.get("image");
+    return value.toString();
+  }
+
+  set image(value: String) {
+    this.set("image", Value.fromString(value));
+  }
+
+  set available(value: BigInt) {
+    this.set("available", Value.fromBigInt(value));
+  }
+
+  get available(): BigInt {
+    let value = this.get("available");
+    return value.toBigInt();
+  }
+
   // timestamp
 
   set timestamp(value: BigInt) {
@@ -277,5 +340,55 @@ export class V1 extends Entity {
 
   set tokenId(value: BigInt) {
     this.set("tokenId", Value.fromBigInt(value));
+  }
+}
+
+
+export class UngrundID extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save UngrundID entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save UngrundID entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("UngrundID", id.toString(), this);
+  }
+
+  static load(id: string): UngrundID | null {
+    return store.get("UngrundID", id) as UngrundID | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get metadata(): string {
+    let value = this.get("metadata");
+    return value.toString();
+  }
+
+  set metadata(value: string) {
+    this.set("metadata", Value.fromString(value));
+  }
+
+  get ungrundId(): string {
+    let value = this.get("ungrundId");
+    return value.toString();
+  }
+
+  set ungrundId(value: string) {
+    this.set("ungrundId", Value.fromString(value));
   }
 }
