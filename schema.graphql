@@ -20,7 +20,6 @@ type Asset @entity {
   mimeType: String
   hash: Bytes
   available: BigInt
-  balance: [Balance!]
 }
 
 type V1 @entity {
