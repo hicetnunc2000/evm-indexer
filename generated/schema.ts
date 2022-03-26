@@ -10,6 +10,70 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
+//type AssetBalance @entity {
+//  id: ID!
+//  amount: Int!
+//  asset: Asset!
+//}
+
+export class Balance extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save AssetBalance entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save AssetBalance entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Balance", id.toString(), this);
+  }
+
+  static load(id: string): Balance | null {
+    return store.get("Balance", id) as Balance | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get amount(): BigInt {
+    let value = this.get("amount");
+    return value.toBigInt();
+  }
+
+  set amount(value: BigInt) {
+    this.set("amount", Value.fromBigInt(value));
+  }
+
+  get asset(): Array<string> | null {
+    let value = this.get("asset");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set asset(value: Array<string> | null) {
+    if (!value) {
+      this.unset("asset");
+    } else {
+      this.set("asset", Value.fromStringArray(<Array<string>>value));
+    }
+  }
+
+}
+
 export class Asset extends Entity {
   constructor(id: string) {
     super();
@@ -391,4 +455,14 @@ export class UngrundID extends Entity {
   set ungrundId(value: string) {
     this.set("ungrundId", Value.fromString(value));
   }
+
+  get description(): String {
+    let value = this.get("description");
+    return value.toString();
+  }
+
+  set description(value: String) {
+    this.set("description", Value.fromString(value));
+  }
+
 }
