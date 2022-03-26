@@ -41,9 +41,3 @@ type UngrundID @entity {
   ungrundId: String!
   description: String
 }
-
-type Balance @entity {
-  id: ID!
-  amount: BigInt
-  asset: [Asset!] @derivedFrom(field: "balance")
-}

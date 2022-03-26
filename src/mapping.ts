@@ -1,7 +1,7 @@
 import { log, ipfs, json, JSONValue, Bytes } from "@graphprotocol/graph-ts"
 import { TransferSingle, URI } from "../generated/erc1155/erc1155"
 import { swapLog } from "../generated/wuweiswapv1/wuweiswapv1"
-import { Transfer, Asset, V1, UngrundID, Balance } from "../generated/schema"
+import { Transfer, Asset, V1, UngrundID } from "../generated/schema"
 import { idLog } from "../generated/ungrundid/ungrundid"
 
 export function handleTransferSingle(event: TransferSingle): void {
@@ -21,24 +21,6 @@ export function handleTransferSingle(event: TransferSingle): void {
     asset.available = event.params._value
     asset.save()
   }
-
-  let balanceFrom = Balance.load(event.params._from.toHex())
-  if (balanceFrom == null) balanceFrom = new Balance(event.params._from.toHex())
-  if (event.params._from.toHexString() == '0x0000000000000000000000000000000000000000') {
-    balanceFrom.amount = event.params._value 
-  } else {
-    balanceFrom.amount += event.params._value
-  }
-  balanceFrom.save() 
-
-  let balanceTo = Balance.load(event.params._to.toHex())
-  if (balanceTo == null) balanceTo = new Balance(event.params._to.toHex())
-  if (event.params._from.toHexString() == '0x0000000000000000000000000000000000000000') {
-    balanceTo.amount = event.params._value 
-  } else {
-    balanceTo.amount += event.params._value
-  }
-  balanceTo.save()
 
   transfer.operator = event.params._operator
   
